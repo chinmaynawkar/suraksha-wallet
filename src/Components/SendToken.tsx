@@ -25,7 +25,7 @@ const SendTokens: React.FC = () => {
       setStatus(`Sent ${amount} SOL to ${slicedPublicKey}`);
       console.log(`Sent ${amount} SOL to ${slicedPublicKey}`);
     } catch (error) {
-      setStatus(`Error: ${error.message}`);
+      setStatus(`Error: ${(error as Error).message}`);
     }
   };
 

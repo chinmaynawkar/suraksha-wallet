@@ -28,11 +28,14 @@ const SignMessage: React.FC = () => {
       if (!ed25519.verify(signature, encodedMessage, publicKey.toBytes())) {
         throw new Error("Message signature invalid!");
       }
-
       setSignature(bs58.encode(signature));
-      alert("Success", `Message signature: ${bs58.encode(signature)}`);
+      console.log("Success", `Message signature: ${bs58.encode(signature)}`);
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     }
   };
 

@@ -17,15 +17,24 @@ const RequestAirdrop: React.FC = () => {
   };
 
   const handleRequestAirdrop = async () => {
+    if (!wallet.publicKey) {
+      setMessage("Wallet is not connected.");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
-    await connection.requestAirdrop(wallet.publicKey,amount * LAMPORTS_PER_SOL);
+    await connection.requestAirdrop(wallet.publicKey, Number(amount) * LAMPORTS_PER_SOL);
     setMessage("");
 
     // Simulating an API call
     setTimeout(() => {
       setLoading(false);
-      alert("Airdropped " + amount + " SOL to " + wallet.publicKey.toBase58());
-      setMessage(`Successfully requested ${amount} tokens!`);
+      if (wallet.publicKey) {
+        alert("Airdropped " + amount + " SOL to " + wallet.publicKey.toBase58());
+        setMessage(`Successfully requested ${amount} tokens!`);
+      } else {
+        setMessage("Failed to request airdrop: No wallet connected.");
+      }
       setAmount("");
     }, 2000);
   };
